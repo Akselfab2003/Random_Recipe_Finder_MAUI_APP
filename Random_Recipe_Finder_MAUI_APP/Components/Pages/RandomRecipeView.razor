@@ -1,0 +1,43 @@
+﻿@using Random_Recipe_Finder_MAUI_APP.Models
+@using Random_Recipe_Finder_MAUI_APP.Services
+@inject IRecipeApiService RecipeApiService
+@page "/recipeview"
+<div class="recipe-view">
+    <h3>@recipe.StrMeal</h3>
+
+    <div class="recipe-header">
+        <img src="@recipe.StrMealThumb" alt="recipe image" class="recipe-image" />
+        <div class="recipe-details">
+            <p><strong>Category:</strong> @recipe.StrCategory</p>
+            <p><strong>Area:</strong> @recipe.StrArea</p>
+            <p><strong>Tags:</strong> @recipe.StrTags</p>
+        </div>
+    </div>
+
+    <div class="recipe-instructions">
+        <h4>Instructions</h4>
+        <p>@recipe.StrInstructions</p>
+    </div>
+
+    <div class="recipe-ingredients">
+        <h4>Ingredients</h4>
+        <ul>
+            @for (int i = 0; i < recipe.Ingredients.Count; i++)
+            {
+                <li>@recipe.Ingredients[i] - @recipe.Measurements[i]</li>
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    public Recipe recipe;
+
+    protected override async Task OnInitializedAsync()
+    {
+        recipe = new Recipe();
+        recipe = await RecipeApiService.GetRandomRecipe();
+
+    }
+
+}
