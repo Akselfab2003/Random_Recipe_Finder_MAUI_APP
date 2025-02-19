@@ -16,9 +16,7 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
         public RecipeApiService()
         {
             Uri uri = new Uri(MAIN_URL_ENPOINT);
-           // client = new HttpClient() { BaseAddress = uri};
-            client = new HttpClient() {  };
-
+            client = new HttpClient() { BaseAddress = uri};
         }
 
         public async Task<List<Recipe>> SearchRecipeByName(string recipeName)
@@ -26,15 +24,11 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
 
             string API_ENPOINT = $"search.php?f={recipeName}";
 
-            var url = Path.Combine(MAIN_URL_ENPOINT, API_ENPOINT);
+
+            HttpResponseMessage response = await client.GetAsync(API_ENPOINT);
 
 
-
-            //HttpResponseMessage response = client.GetAsync(API_ENPOINT);
-
-            HttpResponseMessage response = await client.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode) 
             {
 
                 RecipeApiResponse recipeApiResponse = await response.Content.ReadFromJsonAsync<RecipeApiResponse>();
