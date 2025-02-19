@@ -22,7 +22,7 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
         public async Task<List<Recipe>> SearchRecipeByName(string recipeName)
         {
 
-            string API_ENPOINT = $"search.php?f={recipeName}";
+            string API_ENPOINT = $"search.php?s={recipeName}";
 
 
             HttpResponseMessage response = await client.GetAsync(API_ENPOINT);
