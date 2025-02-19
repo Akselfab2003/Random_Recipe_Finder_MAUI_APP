@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Random_Recipe_Finder_MAUI_APP.Services;
 
 namespace Random_Recipe_Finder_MAUI_APP;
 
@@ -15,9 +16,10 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
+		builder.Services.AddTransient<IRecipeApiService,RecipeApiService>();
 
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
 

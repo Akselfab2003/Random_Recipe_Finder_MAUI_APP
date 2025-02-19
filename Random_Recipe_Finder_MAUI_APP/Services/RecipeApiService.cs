@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Random_Recipe_Finder_MAUI_APP.Services
 {
-    class RecipeApiService
+    class RecipeApiService: IRecipeApiService
     {
         private static readonly string MAIN_URL_ENPOINT = "www.themealdb.com/api/json/v1/1/";
         
