@@ -10,7 +10,7 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
 {
     class RecipeApiService: IRecipeApiService
     {
-        private static readonly string MAIN_URL_ENPOINT = "www.themealdb.com/api/json/v1/1/";
+        private static readonly string MAIN_URL_ENPOINT = "https://www.themealdb.com/api/json/v1/1/";
         
         private HttpClient client;
         public RecipeApiService()

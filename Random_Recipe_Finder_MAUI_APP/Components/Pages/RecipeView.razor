@@ -1,4 +1,7 @@
 ﻿@using Random_Recipe_Finder_MAUI_APP.Models
+@using Random_Recipe_Finder_MAUI_APP.Services
+@inject IRecipeApiService RecipeApiService
+@page "/recipeview"
 <h3>RecipeView</h3>
 
 <img src="@recipe.StrMealThumb" alt="recipe image" />
@@ -10,5 +13,10 @@
 
 @code {
     private Recipe recipe;
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await RecipeApiService.SearchRecipeByName("a");
+        recipe = res[0];
+    }
 
 }
