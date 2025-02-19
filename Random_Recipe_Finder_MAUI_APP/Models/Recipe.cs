@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Random_Recipe_Finder_MAUI_APP.Models
 {
-    public class Meal
+    public class Recipe
     {
-        public string IdMeal { get; set; }
+        public int IdMeal { get; set; }
         public string StrMeal { get; set; }
         public string StrDrinkAlternate { get; set; }
         public string StrCategory { get; set; }
