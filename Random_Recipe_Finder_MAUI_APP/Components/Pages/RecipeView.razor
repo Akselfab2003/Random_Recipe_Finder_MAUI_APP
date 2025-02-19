@@ -11,6 +11,8 @@
 <p>@recipe.StrInstructions</p>
 <p>@recipe.StrTags</p>
 
+<h4>Ingredients:@recipe.Ingredients[0]</h4>
+<h4>Measures:@recipe.Measurements[0]</h4>
 
 @code {
     public Recipe recipe;
@@ -20,6 +22,7 @@
         recipe = new Recipe();
         var res = await RecipeApiService.SearchRecipeByName("a");
         recipe = res[0];
+
     }
 
 }
