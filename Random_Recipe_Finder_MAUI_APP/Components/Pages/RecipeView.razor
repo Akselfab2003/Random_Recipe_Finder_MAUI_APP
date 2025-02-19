@@ -11,10 +11,13 @@
 <p>@recipe.StrInstructions</p>
 <p>@recipe.StrTags</p>
 
+
 @code {
-    private Recipe recipe;
+    public Recipe recipe;
+
     protected override async Task OnInitializedAsync()
     {
+        recipe = new Recipe();
         var res = await RecipeApiService.SearchRecipeByName("a");
         recipe = res[0];
     }
