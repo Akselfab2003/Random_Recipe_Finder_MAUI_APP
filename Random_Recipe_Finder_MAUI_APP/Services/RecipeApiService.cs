@@ -42,5 +42,26 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
             return [];
         }
 
+
+        public async Task<Recipe?> GetRandomRecipe()
+        {
+            string API_ENDPOINT = "random.php";
+
+            HttpResponseMessage response = await client.GetAsync(API_ENDPOINT);
+
+            if (response.IsSuccessStatusCode)
+            {
+
+                RecipeApiResponse recipeApiResponse = await response.Content.ReadFromJsonAsync<RecipeApiResponse>();
+
+                if (recipeApiResponse != null)
+                {
+                    return recipeApiResponse.Meals.First();
+                }
+
+            }
+
+            return null;
+        }
     }
 }
