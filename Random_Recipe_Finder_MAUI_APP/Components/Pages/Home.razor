@@ -6,10 +6,39 @@
 
 Welcome to your new app.
 
+@if (isShaking)
+{
+    <p>Is Shaking</p>
+}
+
 
 @code {
+
+    bool isShaking = false;
+
     protected override void OnInitialized()
     {
-        
+        IAccelerometer accelerometer = Accelerometer.Default;
+
+        if (accelerometer.IsSupported)
+        {
+            if (!accelerometer.IsMonitoring)
+            {
+                accelerometer.ShakeDetected += ShakeDetected;
+                accelerometer.Start(SensorSpeed.UI);
+            }
+            else
+            {
+                accelerometer.Stop();
+                accelerometer.ShakeDetected -= ShakeDetected;
+            }
+        }
     }
+
+    public void ShakeDetected(object sender, EventArgs e)
+    {
+        isShaking = !isShaking;
+        StateHasChanged();
+    }
+    
 }
