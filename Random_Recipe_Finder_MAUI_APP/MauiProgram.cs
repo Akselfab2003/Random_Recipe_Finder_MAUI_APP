@@ -17,6 +17,7 @@ public static class MauiProgram
 
 		builder.Services.AddMauiBlazorWebView();
 		builder.Services.AddTransient<IRecipeApiService,RecipeApiService>();
+		builder.Services.AddTransient<IShakeService, ShakeService>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
