@@ -11,20 +11,37 @@ Welcome to your new app.
 
     protected override void OnInitialized()
     {
-        if (ShakeService != null)
+
+
+        if (Accelerometer.Default.IsSupported)
         {
-            if (ShakeService.IsRunning())
+            if (!Accelerometer.Default.IsMonitoring)
             {
-                ShakeService.SubscribeToShakeEvent(ShakeService_ShakeDetected);
+                Accelerometer.Default.ReadingChanged += ShakeService_ShakeDetected;
+                Accelerometer.Default.Start(SensorSpeed.UI);
             }
             else
             {
-                ShakeService.StartShakeService();
-                ShakeService.SubscribeToShakeEvent(ShakeService_ShakeDetected);
+                Accelerometer.Default.Stop();
+                Accelerometer.Default.ReadingChanged += ShakeService_ShakeDetected;
             }
+
         }
+
+        // if (ShakeService != null)
+        // {
+        //     if (ShakeService.IsRunning())
+        //     {
+        //         ShakeService.SubscribeToShakeEvent(ShakeService_ShakeDetected);
+        //     }
+        //     else
+        //     {
+        //         ShakeService.StartShakeService();
+        //         ShakeService.SubscribeToShakeEvent(ShakeService_ShakeDetected);
+        //     }
+        // }
     }
-    private void ShakeService_ShakeDetected(object sender, EventArgs e)
+    private void ShakeService_ShakeDetected(object sender, AccelerometerChangedEventArgs e)
     {
         Console.WriteLine("Shake Detected");
     }
