@@ -44,14 +44,38 @@
             <div class="recipe-ingredients">
                 <h4>Ingredients</h4>
                 <ul>
-                    @if (recipe.Ingredients != null && recipe.Measurements != null){
-                        @for (int i = 0; i < recipe.Ingredients.Count; i++)
+                    @if (recipe.Ingredients != null || recipe.Measurements != null)
+                    {
+                        int ingredientCount = recipe.Ingredients?.Count ?? 0;
+                        int measurementCount = recipe.Measurements?.Count ?? 0;
+                        int maxCount = Math.Max(ingredientCount, measurementCount);
+
+                        @for (int i = 0; i < maxCount; i++)
                         {
-                            <li>@recipe.Ingredients[i] - @recipe.Measurements[i] </li>
+                            string ingredient = i < ingredientCount ? recipe.Ingredients[i] : "";
+
+                            string measurement = i < measurementCount ? recipe.Measurements[i] : "";
+
+                            if (!string.IsNullOrWhiteSpace(ingredient) || !string.IsNullOrWhiteSpace(measurement))
+                            {
+                                if (!string.IsNullOrWhiteSpace(ingredient) && !string.IsNullOrWhiteSpace(measurement))
+                                {
+                                    <li>@ingredient - @measurement</li>
+                                }
+                                else if (!string.IsNullOrWhiteSpace(ingredient))
+                                {
+                                    <li>@ingredient</li>
+                                }
+                                else
+                                {
+                                    <li>@measurement</li>
+                                }
+                            }
                         }
                     }
                 </ul>
             </div>
+
         </div>
     }
 }
