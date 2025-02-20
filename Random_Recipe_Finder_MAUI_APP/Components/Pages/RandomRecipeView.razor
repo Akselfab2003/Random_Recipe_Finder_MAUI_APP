@@ -36,7 +36,7 @@
     <div class="recipe-ingredients">
         <h4>Ingredients</h4>
         <ul>
-            @if(recipe.Ingredients != null && recipe.Measurements != null && recipe.Ingredients != string.Empty && recipe.Measurements != string.Empty)
+            @if(recipe.Ingredients != null && recipe.Measurements != null)
             {
                 @for (int i = 0; i < recipe.Ingredients.Count; i++)
                 {
