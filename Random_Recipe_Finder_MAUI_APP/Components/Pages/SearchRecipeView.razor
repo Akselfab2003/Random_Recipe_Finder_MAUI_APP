@@ -1,0 +1,81 @@
+﻿@using Random_Recipe_Finder_MAUI_APP.Models
+@using Random_Recipe_Finder_MAUI_APP.Services
+@inject IRecipeApiService RecipeApiService
+@page "/searchrecipeview"
+
+<div class="search-container">
+    <input @bind="searchQuery" placeholder="Search for a recipe..." />
+    <button @onclick="SearchRecipes">Search</button>
+</div>
+
+@if (recipes != null && recipes.Count > 0)
+{
+    @foreach (var recipe in recipes)
+    {
+        <div class="recipe-view">
+            <h3>@recipe.StrMeal</h3>
+
+            <div class="recipe-header">
+                <img src="@recipe.StrMealThumb" alt="recipe image" class="recipe-image" />
+                <div class="recipe-details">
+                    <p><strong>Category:</strong> @recipe.StrCategory</p>
+                    <p><strong>Area:</strong> @recipe.StrArea</p>
+                    <p><strong>Tags:</strong> @recipe.StrTags</p>
+                </div>
+            </div>
+
+            <div class="recipe-instructions">
+                <h4>Instructions</h4>
+                <p>@recipe.StrInstructions</p>
+            </div>
+
+            <div class="recipe-ingredients">
+                <h4>Ingredients</h4>
+                <ul>
+                    @for (int i = 0; i < recipe.Ingredients.Count; i++)
+                    {
+                        <li>@recipe.Ingredients[i] - @recipe.Measurements[i]</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    private string searchQuery;
+    private List<Recipe> recipes = new List<Recipe>();
+
+    private async Task SearchRecipes()
+    {
+        var res = await RecipeApiService.SearchRecipeByName(searchQuery);
+        if (res != null && res.Count > 0)
+        {
+            recipes = res;
+            foreach (var recipe in recipes)
+            {
+                AddIngredientsAndMeasures(recipe);
+            }
+        }
+    }
+
+    private void AddIngredientsAndMeasures(Recipe recipe)
+    {
+        for (int i = 1; i <= 20; i++)
+        {
+            var ingredient = (string)typeof(Recipe).GetProperty($"StrIngredient{i}")?.GetValue(recipe);
+            var measure = (string)typeof(Recipe).GetProperty($"StrMeasure{i}")?.GetValue(recipe);
+
+            if (!string.IsNullOrWhiteSpace(ingredient))
+            {
+                recipe.Ingredients.Add(ingredient);
+            }
+
+            if (!string.IsNullOrWhiteSpace(measure))
+            {
+                recipe.Measurements.Add(measure);
+            }
+        }
+    }
+}
+
