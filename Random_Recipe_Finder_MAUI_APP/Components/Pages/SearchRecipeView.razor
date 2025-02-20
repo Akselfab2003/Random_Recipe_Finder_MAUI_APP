@@ -6,8 +6,14 @@
 
 <div class="search-container">
     <input @bind="searchQuery" placeholder="Search for a recipe..." />
-    <button @onclick="SearchRecipes">Search</button>
+    <button @onclick="SearchRecipes" disabled="@isLoading">Search</button>
+
 </div>
+@if (isLoading)
+{
+    <div class="loading-indicator">Loading...</div>
+}
+
 
 @if (recipes != null && recipes.Count > 0)
 {
@@ -84,6 +90,7 @@
     private string searchQuery="";
     private List<Recipe> recipes = new List<Recipe>();
     private HashSet<int> favoriteRecipeIds = new HashSet<int>();
+    private bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -98,11 +105,13 @@
 
     private async Task SearchRecipes()
     {
+        isLoading = true;
         var res = await RecipeApiService.SearchRecipeByName(searchQuery);
         if (res != null && res.Count > 0)
         {
             recipes = res;
             await LoadFavorites();
+            isLoading = false;
             StateHasChanged();
         }
     }
