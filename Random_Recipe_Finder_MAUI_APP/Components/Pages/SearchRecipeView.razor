@@ -27,7 +27,7 @@
                 <div class="recipe-details">
                     <p><strong>Category:</strong> @recipe.StrCategory</p>
                     <p><strong>Area:</strong> @recipe.StrArea</p>
-                    <p><strong>Tags:</strong> @recipe.StrTags</p>
+                    <p><strong>Tags:</strong> @((MarkupString)FormatTags(recipe.StrTags))</p>
                 </div>
 
                 <button class="favorite-btn" @onclick="() => ToggleFavorite(recipe)">
@@ -140,5 +140,23 @@
             favoriteRecipeIds.Add(recipe.IdMeal);
         }
         StateHasChanged();
+    }
+    private string FormatTags(string tags)
+    {
+        if (string.IsNullOrEmpty(tags))
+        {
+            return string.Empty;
+        }
+
+        var tagList = tags.Split(',');
+        for (int i = 2; i < tagList.Length; i += 3)
+        {
+            if (tagList[i].Length >= 10)
+            {
+                tagList[i] = "<br />" + tagList[i];
+            }
+        }
+
+        return string.Join(", ", tagList);
     }
 }
