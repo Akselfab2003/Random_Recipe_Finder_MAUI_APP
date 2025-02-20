@@ -1,0 +1,73 @@
+﻿@page "/viewfavorites"
+@inject Random_Recipe_Finder_MAUI_APP.Services.DatabaseHelper DatabaseHelper
+@using Random_Recipe_Finder_MAUI_APP.Models
+@using Random_Recipe_Finder_MAUI_APP.Services
+@inject IRecipeApiService RecipeApiService
+
+<h2>Favorite Recipes</h2>
+
+@if (favoriteRecipes.Count == 0)
+{
+    <p>No favorite recipes yet.</p>
+}
+else
+{
+    @foreach (var recipe in favoriteRecipes)
+    {
+        <div class="recipe-view">
+            <h3>@recipe.StrMeal</h3>
+
+            <div class="recipe-header">
+                <img src="@recipe.StrMealThumb" alt="recipe image" class="recipe-image" />
+                <div class="recipe-details">
+                    <p><strong>Category:</strong> @recipe.StrCategory</p>
+                    <p><strong>Area:</strong> @recipe.StrArea</p>
+                </div>
+
+                <!-- Remove Favorite Button -->
+                <button class="remove-btn" @onclick="() => RemoveFavorite(recipe.IdMeal)">
+                    ❌ Remove
+                </button>
+            </div>
+
+            <div class="recipe-instructions">
+                <h4>Instructions</h4>
+                <p>@recipe.StrInstructions</p>
+            </div>
+
+            <div class="recipe-ingredients">
+                <h4>Ingredients</h4>
+                <ul>
+                    @for (int i = 0; i < recipe.Ingredients.Count; i++)
+                    {
+                        <li>@recipe.Ingredients[i] - @recipe.Measurements[i]</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    private List<Recipe> favoriteRecipes = new List<Recipe>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFavorites();
+    }
+
+    private async Task LoadFavorites()
+    {
+        favoriteRecipes = await DatabaseHelper.GetRecipesAsync();
+    }
+
+    private async Task RemoveFavorite(int idMeal)
+    {
+        var recipeToRemove = favoriteRecipes.FirstOrDefault(r => r.IdMeal == idMeal);
+        if (recipeToRemove != null)
+        {
+            await DatabaseHelper.DeleteRecipeAsync(recipeToRemove);
+            favoriteRecipes.Remove(recipeToRemove);
+        }
+    }
+}
