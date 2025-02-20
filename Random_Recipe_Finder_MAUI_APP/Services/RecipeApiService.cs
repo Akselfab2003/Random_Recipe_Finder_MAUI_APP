@@ -65,6 +65,7 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
 
                 if (recipeApiResponse != null)
                 {
+                    EnsureIngredientsAndMeasurementsAreLoadded(recipeApiResponse.Meals);
                     return recipeApiResponse.Meals.First();
                 }
 
