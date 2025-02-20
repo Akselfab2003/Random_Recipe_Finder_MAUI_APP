@@ -35,11 +35,20 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
 
                 if (recipeApiResponse != null)
                 {
+                    EnsureIngredientsAndMeasurementsAreLoadded(recipeApiResponse.Meals);
                     return recipeApiResponse.Meals;
                 }
+
             }
 
             return [];
+        }
+        public void EnsureIngredientsAndMeasurementsAreLoadded(List<Recipe> recipes)
+        {
+            foreach (Recipe recipe in recipes)
+            {
+                recipe.AddIngredientAndMeasurement();
+            }
         }
 
 

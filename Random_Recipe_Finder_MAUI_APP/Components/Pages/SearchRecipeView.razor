@@ -32,9 +32,9 @@
             <div class="recipe-ingredients">
                 <h4>Ingredients</h4>
                 <ul>
-                    @for (int i = 0; i < recipe.Ingredients.Count; i++)
+                  @for (int i = 0; i < recipe.Ingredients.Count; i++)
                     {
-                        <li>@recipe.Ingredients[i] - @recipe.Measurements[i]</li>
+                        <li>@recipe.Ingredients[i] - @recipe.Measurements[i] </li>
                     }
                 </ul>
             </div>
@@ -43,7 +43,7 @@
 }
 
 @code {
-    private string searchQuery;
+    private string searchQuery="";
     private List<Recipe> recipes = new List<Recipe>();
 
     private async Task SearchRecipes()
@@ -51,7 +51,7 @@
         var res = await RecipeApiService.SearchRecipeByName(searchQuery);
         if (res != null && res.Count > 0)
         {
-            recipes = res;
+            recipes = res.Take(20).ToList();
         }
     }
 
