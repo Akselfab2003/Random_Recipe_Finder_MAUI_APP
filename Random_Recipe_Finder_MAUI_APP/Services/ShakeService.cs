@@ -22,12 +22,13 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
 
         public void StartShakeService()
         {
-            _accelerometer.Start(SensorSpeed.Default);
             _isShakeServiceRunning = true;
+            _accelerometer.Start(SensorSpeed.Default);
         }
 
         public void StopShakeService()
         {
+            _isShakeServiceRunning = false;
             _accelerometer.Stop();
         }
 
