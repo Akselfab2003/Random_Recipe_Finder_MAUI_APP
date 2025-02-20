@@ -8,41 +8,8 @@ Welcome to your new app.
 
 
 @code {
-
     protected override void OnInitialized()
     {
-
-
-        if (Accelerometer.Default.IsSupported)
-        {
-            if (!Accelerometer.Default.IsMonitoring)
-            {
-                Accelerometer.Default.ReadingChanged += ShakeService_ShakeDetected;
-                Accelerometer.Default.Start(SensorSpeed.UI);
-            }
-            else
-            {
-                Accelerometer.Default.Stop();
-                Accelerometer.Default.ReadingChanged += ShakeService_ShakeDetected;
-            }
-
-        }
-
-        // if (ShakeService != null)
-        // {
-        //     if (ShakeService.IsRunning())
-        //     {
-        //         ShakeService.SubscribeToShakeEvent(ShakeService_ShakeDetected);
-        //     }
-        //     else
-        //     {
-        //         ShakeService.StartShakeService();
-        //         ShakeService.SubscribeToShakeEvent(ShakeService_ShakeDetected);
-        //     }
-        // }
-    }
-    private void ShakeService_ShakeDetected(object sender, AccelerometerChangedEventArgs e)
-    {
-        Console.WriteLine("Shake Detected");
+        
     }
 }
