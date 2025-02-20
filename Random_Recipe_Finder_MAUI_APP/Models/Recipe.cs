@@ -65,8 +65,8 @@ namespace Random_Recipe_Finder_MAUI_APP.Models
         public string DateModified { get; set; }
 
         [Ignore]
-        public List<string> Ingredients
         public List<string> Ingredients { get; set; }
+        [Ignore]
         public List<string> Measurements { get; set; }
         public void AddIngredientAndMeasurement()
         {

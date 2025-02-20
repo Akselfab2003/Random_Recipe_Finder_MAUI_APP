@@ -22,9 +22,15 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
             return _database.InsertAsync(recipe);
         }
 
-        public Task<List<Recipe>> GetRecipesAsync()
+        public async Task<List<Recipe>> GetRecipesAsync()
         {
-            return _database.Table<Recipe>().ToListAsync();
+            var res = await _database.Table<Recipe>().ToListAsync();
+            foreach(var item in res)
+            {
+                item.AddIngredientAndMeasurement();
+            }
+
+            return res;
         }
 
         public Task<int> DeleteRecipeAsync(Recipe recipe)
