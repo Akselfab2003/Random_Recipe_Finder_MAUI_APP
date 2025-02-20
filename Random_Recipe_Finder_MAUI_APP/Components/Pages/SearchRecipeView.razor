@@ -1,6 +1,7 @@
 ﻿@using Random_Recipe_Finder_MAUI_APP.Models
 @using Random_Recipe_Finder_MAUI_APP.Services
 @inject IRecipeApiService RecipeApiService
+@inject Random_Recipe_Finder_MAUI_APP.Services.DatabaseHelper DatabaseHelper
 @page "/searchrecipeview"
 
 <div class="search-container">
@@ -22,6 +23,17 @@
                     <p><strong>Area:</strong> @recipe.StrArea</p>
                     <p><strong>Tags:</strong> @recipe.StrTags</p>
                 </div>
+
+                <button class="favorite-btn" @onclick="() => ToggleFavorite(recipe)">
+                    @if (favoriteRecipeIds.Contains(recipe.IdMeal))
+                    {
+                        <span style="color: gold;">★</span>
+                    }
+                    else
+                    {
+                        <span style="color: gray;">☆</span>
+                    }
+                </button>
             </div>
 
             <div class="recipe-instructions">
@@ -45,6 +57,18 @@
 @code {
     private string searchQuery;
     private List<Recipe> recipes = new List<Recipe>();
+    private HashSet<int> favoriteRecipeIds = new HashSet<int>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFavorites();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadFavorites();
+        StateHasChanged();
+    }
 
     private async Task SearchRecipes()
     {
@@ -52,8 +76,34 @@
         if (res != null && res.Count > 0)
         {
             recipes = res;
+            await LoadFavorites();
+            StateHasChanged();
         }
     }
 
-}
+    private async Task LoadFavorites()
+    {
+        var savedRecipes = await DatabaseHelper.GetRecipesAsync();
+        favoriteRecipeIds = new HashSet<int>(savedRecipes.Select(r => r.IdMeal));
+    }
 
+    private async Task ToggleFavorite(Recipe recipe)
+    {
+        if (favoriteRecipeIds.Contains(recipe.IdMeal))
+        {
+            var existingRecipe = (await DatabaseHelper.GetRecipesAsync())
+                                 .FirstOrDefault(r => r.IdMeal == recipe.IdMeal);
+            if (existingRecipe != null)
+            {
+                await DatabaseHelper.DeleteRecipeAsync(existingRecipe);
+                favoriteRecipeIds.Remove(recipe.IdMeal);
+            }
+        }
+        else
+        {
+            await DatabaseHelper.SaveRecipeAsync(recipe);
+            favoriteRecipeIds.Add(recipe.IdMeal);
+        }
+        StateHasChanged();
+    }
+}

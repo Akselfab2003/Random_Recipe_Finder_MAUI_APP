@@ -110,3 +110,57 @@ h1:focus {
         width: 600px;
     }
 }
+/*Toggle favorite star CSS (SearchRecipeView.razor)*/
+.favorite-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+    .favorite-btn:hover {
+        transform: scale(1.2);
+    }
+
+/*View Favorites page CSS*/
+.recipe-view {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.recipe-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.recipe-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.recipe-details {
+    flex-grow: 1;
+}
+
+.remove-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    .remove-btn:hover {
+        background: darkred;
+    }
+

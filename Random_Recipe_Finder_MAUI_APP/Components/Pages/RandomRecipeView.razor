@@ -1,7 +1,9 @@
 ﻿@using Random_Recipe_Finder_MAUI_APP.Models
 @using Random_Recipe_Finder_MAUI_APP.Services
 @inject IRecipeApiService RecipeApiService
+@inject Random_Recipe_Finder_MAUI_APP.Services.DatabaseHelper DatabaseHelper
 @page "/randomrecipeview"
+
 <div class="recipe-view">
     <h3>@recipe.StrMeal</h3>
 
@@ -12,6 +14,18 @@
             <p><strong>Area:</strong> @recipe.StrArea</p>
             <p><strong>Tags:</strong> @recipe.StrTags</p>
         </div>
+
+        <!-- Favorite Star Button -->
+        <button class="favorite-btn" @onclick="ToggleFavorite">
+            @if (isFavorite)
+            {
+                <span style="color: gold;">★</span>
+            }
+            else
+            {
+                <span style="color: gray;">☆</span>
+            }
+        </button>
     </div>
 
     <div class="recipe-instructions">
@@ -31,13 +45,45 @@
 </div>
 
 @code {
-    public Recipe recipe;
+    private Recipe recipe = new Recipe();
+    private bool isFavorite = false;
 
     protected override async Task OnInitializedAsync()
     {
-        recipe = new Recipe();
-        recipe = await RecipeApiService.GetRandomRecipe();
-
+        await LoadRandomRecipe();
     }
 
+    private async Task LoadRandomRecipe()
+    {
+        recipe = await RecipeApiService.GetRandomRecipe();
+        await CheckIfFavorite();
+    }
+
+    private async Task CheckIfFavorite()
+    {
+        var savedRecipes = await DatabaseHelper.GetRecipesAsync();
+        isFavorite = savedRecipes.Any(r => r.IdMeal == recipe.IdMeal);
+        StateHasChanged();
+    }
+
+    private async Task ToggleFavorite()
+    {
+        if (isFavorite)
+        {
+            var existingRecipe = (await DatabaseHelper.GetRecipesAsync())
+                                 .FirstOrDefault(r => r.IdMeal == recipe.IdMeal);
+            if (existingRecipe != null)
+            {
+                await DatabaseHelper.DeleteRecipeAsync(existingRecipe);
+            }
+            isFavorite = false;
+        }
+        else
+        {
+            await DatabaseHelper.SaveRecipeAsync(recipe);
+            isFavorite = true;
+        }
+
+        StateHasChanged();
+    }
 }

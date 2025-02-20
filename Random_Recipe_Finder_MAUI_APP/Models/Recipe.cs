@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Random_Recipe_Finder_MAUI_APP.Models
 {
     public class Recipe
     {
+        [PrimaryKey]
         public int IdMeal { get; set; }
         public string StrMeal { get; set; }
         public string StrDrinkAlternate { get; set; }
@@ -62,6 +64,7 @@ namespace Random_Recipe_Finder_MAUI_APP.Models
         public string StrCreativeCommonsConfirmed { get; set; }
         public string DateModified { get; set; }
 
+        [Ignore]
         public List<string> Ingredients
         {
             get { 
@@ -70,6 +73,7 @@ namespace Random_Recipe_Finder_MAUI_APP.Models
             }
         }
 
+        [Ignore]
         public List<string> Measurements
         {
             get { 
