@@ -44,9 +44,9 @@
             <div class="recipe-ingredients">
                 <h4>Ingredients</h4>
                 <ul>
-                    @for (int i = 0; i < recipe.Ingredients.Count; i++)
+                  @for (int i = 0; i < recipe.Ingredients.Count; i++)
                     {
-                        <li>@recipe.Ingredients[i] - @recipe.Measurements[i]</li>
+                        <li>@recipe.Ingredients[i] - @recipe.Measurements[i] </li>
                     }
                 </ul>
             </div>
@@ -55,7 +55,7 @@
 }
 
 @code {
-    private string searchQuery;
+    private string searchQuery="";
     private List<Recipe> recipes = new List<Recipe>();
     private HashSet<int> favoriteRecipeIds = new HashSet<int>();
 
