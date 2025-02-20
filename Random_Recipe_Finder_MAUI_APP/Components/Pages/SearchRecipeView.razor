@@ -52,30 +52,8 @@
         if (res != null && res.Count > 0)
         {
             recipes = res;
-            foreach (var recipe in recipes)
-            {
-                AddIngredientsAndMeasures(recipe);
-            }
         }
     }
 
-    private void AddIngredientsAndMeasures(Recipe recipe)
-    {
-        for (int i = 1; i <= 20; i++)
-        {
-            var ingredient = (string)typeof(Recipe).GetProperty($"StrIngredient{i}")?.GetValue(recipe);
-            var measure = (string)typeof(Recipe).GetProperty($"StrMeasure{i}")?.GetValue(recipe);
-
-            if (!string.IsNullOrWhiteSpace(ingredient))
-            {
-                recipe.Ingredients.Add(ingredient);
-            }
-
-            if (!string.IsNullOrWhiteSpace(measure))
-            {
-                recipe.Measurements.Add(measure);
-            }
-        }
-    }
 }
 

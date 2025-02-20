@@ -64,12 +64,18 @@ namespace Random_Recipe_Finder_MAUI_APP.Models
 
         public List<string> Ingredients
         {
-            get { return new List<string> { StrIngredient1, StrIngredient2, StrIngredient3, StrIngredient4, StrIngredient5, StrIngredient6, StrIngredient7, StrIngredient8, StrIngredient9, StrIngredient10, StrIngredient11, StrIngredient12, StrIngredient13, StrIngredient14, StrIngredient15, StrIngredient16, StrIngredient17, StrIngredient18, StrIngredient19, StrIngredient20 }; }
+            get { 
+                List<string> test = new List<string> { StrIngredient1, StrIngredient2, StrIngredient3, StrIngredient4, StrIngredient5, StrIngredient6, StrIngredient7, StrIngredient8, StrIngredient9, StrIngredient10, StrIngredient11, StrIngredient12, StrIngredient13, StrIngredient14, StrIngredient15, StrIngredient16, StrIngredient17, StrIngredient18, StrIngredient19, StrIngredient20 };
+                return test.Where(x => !string.IsNullOrEmpty(x)).ToList();
+            }
         }
 
         public List<string> Measurements
         {
-            get { return new List<string> { StrMeasure1, StrMeasure2, StrMeasure3, StrMeasure4, StrMeasure5, StrMeasure6, StrMeasure7, StrMeasure8, StrMeasure9, StrMeasure10, StrMeasure11, StrMeasure12, StrMeasure13, StrMeasure14, StrMeasure15, StrMeasure16, StrMeasure17, StrMeasure18, StrMeasure19, StrMeasure20 }; }
+            get { 
+                List<string> test= new List<string> { StrMeasure1, StrMeasure2, StrMeasure3, StrMeasure4, StrMeasure5, StrMeasure6, StrMeasure7, StrMeasure8, StrMeasure9, StrMeasure10, StrMeasure11, StrMeasure12, StrMeasure13, StrMeasure14, StrMeasure15, StrMeasure16, StrMeasure17, StrMeasure18, StrMeasure19, StrMeasure20 };
+                return test.Where(x => !string.IsNullOrEmpty(x)).ToList();
+            }
         }
     }
 }

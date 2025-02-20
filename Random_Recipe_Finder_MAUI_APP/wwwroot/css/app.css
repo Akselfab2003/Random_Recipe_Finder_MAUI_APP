@@ -86,3 +86,27 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+/* Media queries for responsive images */
+@media (min-width: 576px) {
+    .recipe-image {
+        width: 300px;
+    }
+}
+
+@media (min-width: 768px) {
+    .recipe-image {
+        width: 400px;
+    }
+}
+
+@media (min-width: 992px) {
+    .recipe-image {
+        width: 500px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .recipe-image {
+        width: 600px;
+    }
+}
