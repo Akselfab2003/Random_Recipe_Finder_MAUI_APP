@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maui.Devices.Sensors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,6 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
     public class ShakeService: IShakeService
     {
         private readonly IAccelerometer _accelerometer;
-        private bool _isShakeServiceRunning = false;
         public ShakeService()
         {
             _accelerometer = Accelerometer.Default;
@@ -17,19 +17,30 @@ namespace Random_Recipe_Finder_MAUI_APP.Services
 
         public bool IsRunning()
         {
-            return _isShakeServiceRunning;
+            return _accelerometer.IsMonitoring;
         }
 
         public void StartShakeService()
         {
-            _isShakeServiceRunning = true;
-            _accelerometer.Start(SensorSpeed.Default);
+            if (_accelerometer.IsSupported)
+            {
+                if (!_accelerometer.IsMonitoring)
+                {
+                    _accelerometer.Start(SensorSpeed.Default);
+                }
+            }
+
         }
 
         public void StopShakeService()
         {
-            _isShakeServiceRunning = false;
-            _accelerometer.Stop();
+            if (_accelerometer.IsSupported)
+            {
+                if (_accelerometer.IsMonitoring)
+                {
+                    _accelerometer.Stop();
+                }
+            }
         }
 
         public void SubscribeToShakeEvent(EventHandler action)

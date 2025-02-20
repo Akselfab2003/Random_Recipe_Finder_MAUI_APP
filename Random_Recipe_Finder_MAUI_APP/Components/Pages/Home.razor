@@ -1,6 +1,6 @@
 ﻿@page "/"
 @using Random_Recipe_Finder_MAUI_APP.Services
-@* @inject IShakeService ShakeService *@
+@inject IShakeService ShakeService
 
 <h1>Hello, world!</h1>
 
@@ -18,21 +18,8 @@ Welcome to your new app.
 
     protected override void OnInitialized()
     {
-        IAccelerometer accelerometer = Accelerometer.Default;
-
-        if (accelerometer.IsSupported)
-        {
-            if (!accelerometer.IsMonitoring)
-            {
-                accelerometer.ShakeDetected += ShakeDetected;
-                accelerometer.Start(SensorSpeed.UI);
-            }
-            else
-            {
-                accelerometer.Stop();
-                accelerometer.ShakeDetected -= ShakeDetected;
-            }
-        }
+        ShakeService.SubscribeToShakeEvent(ShakeDetected);
+        ShakeService.StartShakeService();
     }
 
     public void ShakeDetected(object sender, EventArgs e)
