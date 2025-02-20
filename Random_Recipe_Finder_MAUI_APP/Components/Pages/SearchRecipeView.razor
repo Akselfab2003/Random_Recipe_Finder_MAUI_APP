@@ -44,9 +44,11 @@
             <div class="recipe-ingredients">
                 <h4>Ingredients</h4>
                 <ul>
-                  @for (int i = 0; i < recipe.Ingredients.Count; i++)
-                    {
-                        <li>@recipe.Ingredients[i] - @recipe.Measurements[i] </li>
+                    @if (recipe.Ingredients != null && recipe.Measurements != null){
+                        @for (int i = 0; i < recipe.Ingredients.Count; i++)
+                        {
+                            <li>@recipe.Ingredients[i] - @recipe.Measurements[i] </li>
+                        }
                     }
                 </ul>
             </div>
